@@ -26,16 +26,16 @@ allprojects {
 
 // Mengambil flutterRoot dari local.properties
 def flutterRoot
-Properties localProperties = new Properties()
-def localPropertiesFile = project.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localProperties.load(localPropertiesFile.newDataInputStream())
+if (rootProject.file('../local.properties').exists()) {
+    Properties localProperties = new Properties()
+    localProperties.load(rootProject.file('../local.properties').newDataInputStream())
     flutterRoot = localProperties.getProperty('flutter.sdk')
 }
 
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw new GradleException("Flutter SDK not found. Please ensure flutter.sdk is defined in local.properties.")
 }
+
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
