@@ -25,15 +25,18 @@ allprojects {
 }
 
 // Mengambil flutterRoot dari local.properties
-def flutterRoot
-if (rootProject.file('../local.properties').exists()) {
-    Properties localProperties = new Properties()
-    localProperties.load(rootProject.file('../local.properties').newDataInputStream())
-    flutterRoot = localProperties.getProperty('flutter.sdk')
+def flutterRoot = System.getenv("FLUTTER_ROOT")
+if (flutterRoot == null) {
+    def localProperties = new Properties()
+    def localPropertiesFile = rootProject.file('../local.properties') // Coba cari di direktori root proyek utama
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.newDataInputStream())
+        flutterRoot = localProperties.getProperty('flutter.sdk')
+    }
 }
 
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Please ensure flutter.sdk is defined in local.properties.")
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 
